@@ -22,5 +22,11 @@
         "iterations": 1,
         "group": "General",
         "plot_group": "Startup Time"
+    },
+    {
+        "name": "libhermit.a",
+        "path": "~/test/x86_64-hermit/lib/libhermit.a",
+        "group": "File Size",
+        "plot_group": "Benchmark File Size"
     }
 ]
