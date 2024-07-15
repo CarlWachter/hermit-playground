@@ -3,21 +3,17 @@ name: Test x86_64
 on:
   pull_request:
   merge_group:
+  push:
+    branches:
+    - bench
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container: ghcr.io/hermit-os/hermit-toolchain:latest
+    runs-on: [self-hosted]
     steps:
     - uses: actions/checkout@v4
       with:
         submodules: true
-    - name: Build apps
-      run: |
-        mkdir build
-        cd build
-        cmake ..
-        make
     - name: Download loader
       uses: dsaltares/fetch-gh-release-asset@master
       with:
@@ -26,15 +22,22 @@ jobs:
         file: hermit-loader-x86_64
     - name: Install QEMU
       run: |
-        apt-get update
-        apt-get -y install qemu-system-x86
-    - name: Run hello
-      run: qemu-system-x86_64 -smp 1 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 128M -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/tests/hello
-    #- name: Run hellof
-    #  run: qemu-system-x86_64 -smp 1 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 128M -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/tests/hellof
-    - name: Run thr_hello
-      run: qemu-system-x86_64 -smp 1 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 128M -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/tests/thr_hello
-    - name: Run hello++
-      run: qemu-system-x86_64 -smp 1 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 128M -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/tests/hello++
-    #- name: Run jacobi
-    #  run: qemu-system-x86_64 -smp 1 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 1G -serial stdio -kernel rusty-loader -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/tests/jacobi
+        sudo apt-get update
+        sudo apt-get -y install qemu-system-x86
+    - name: Run benchmarks
+      uses: CarlWachter/hermit-bench@hermit-playground
+      with: 
+        benchmark-file: /usr/benchmarks/bench.json
+        build-command: "HERMIT_LOG_LEVEL_FILTER=Off mkdir build && cd build && cmake .. -DTOOLCHAIN_BIN_DIR=~/test/x86_64-hermit/bin && make"
+    - name: Store benchmark result
+      uses: CarlWachter/github-action-benchmark@playground
+      with:
+        # What benchmark tool the output.txt came from
+        tool: 'customSmallerIsBetter'
+        # Where the output from the benchmark tool is stored
+        output-file-path: results.json
+        # Where the previous data file is stored
+        #external-data-json-path: ./cache/benchmark-data.json
+        # Publish to Pages on
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        auto-push: true
