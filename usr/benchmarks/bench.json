@@ -25,8 +25,15 @@
     },
     {
         "name": "libhermit.a",
-        "path": "~/test/x86_64-hermit/lib/libhermit.a",
+        "path": "build/hermit_rs/x86_64/release/libhermit.a",
         "group": "File Size",
         "plot_group": "Benchmark File Size"
+    },
+    {
+        "name": "Pi Multithreaded Benchmark",
+        "command": "sudo qemu-system-x86_64 -smp 4 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 512M -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/multithreaded",
+        "iterations": 1,
+        "group": "General",
+        "plot_group": "Multithreaded Pi Efficiency"
     }
 ]
