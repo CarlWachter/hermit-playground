@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1721055828056,
+  "lastUpdate": 1721056542251,
   "repoUrl": "https://github.com/CarlWachter/hermit-playground",
   "entries": {
     "Benchmark": [
@@ -488,6 +488,92 @@ window.BENCHMARK_DATA = {
             "range": 0,
             "group": "File Size",
             "plot_group": "Benchmark File Size"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "name": "Martin Kröning",
+            "username": "mkroening",
+            "email": "mkroening@posteo.net"
+          },
+          "committer": {
+            "name": "GitHub",
+            "username": "web-flow",
+            "email": "noreply@github.com"
+          },
+          "id": "285f28af2b077a85723376c82ad8e38f508716d1",
+          "message": "Merge pull request #1237 from CarlWachter/no_lwip\n\nfeat(newlib): using kernel networking, instead of lwip",
+          "timestamp": "2024-06-04T10:40:31Z",
+          "url": "https://github.com/hermit-os/kernel/commit/285f28af2b077a85723376c82ad8e38f508716d1"
+        },
+        "date": 1721056541500,
+        "tool": "customSmallerIsBetter",
+        "benches": [
+          {
+            "name": "Build",
+            "value": 86.216739937,
+            "unit": "s",
+            "range": 0,
+            "group": "General",
+            "plot_group": "none"
+          },
+          {
+            "name": "1 core",
+            "value": 0.459331199,
+            "unit": "s",
+            "range": 0,
+            "group": "General",
+            "plot_group": "Startup Time"
+          },
+          {
+            "name": "2 cores",
+            "value": 0.474254567,
+            "unit": "s",
+            "range": 0,
+            "group": "General",
+            "plot_group": "Startup Time"
+          },
+          {
+            "name": "4 cores",
+            "value": 0.515418269,
+            "unit": "s",
+            "range": 0,
+            "group": "General",
+            "plot_group": "Startup Time"
+          },
+          {
+            "name": "libhermit.a",
+            "value": 13.58388900756836,
+            "unit": "MB",
+            "range": 0,
+            "group": "File Size",
+            "plot_group": "Benchmark File Size"
+          },
+          {
+            "name": "2 Threads",
+            "value": 49.963824,
+            "unit": "percent",
+            "range": 0,
+            "group": "General",
+            "plot_group": "Multithreaded Pi Efficiency"
+          },
+          {
+            "name": "4 Threads",
+            "value": 49.877831,
+            "unit": "percent",
+            "range": 0,
+            "group": "General",
+            "plot_group": "Multithreaded Pi Efficiency"
+          },
+          {
+            "name": "8 Threads",
+            "value": 16.637811,
+            "unit": "percent",
+            "range": 0,
+            "group": "General",
+            "plot_group": "Multithreaded Pi Efficiency"
           }
         ]
       }
