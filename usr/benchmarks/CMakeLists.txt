@@ -7,9 +7,13 @@ add_executable(basic basic.c)
 target_compile_options(basic PRIVATE -pthread)
 target_link_libraries(basic pthread)
 
+add_executable(demo demo/main.c demo/laplace.c demo/elapsed_time.c demo/pi.c demo/sleep.c bench_output.c) #demo/matmul.c removed for now
+target_compile_options(demo PRIVATE -pthread)
+target_link_libraries(demo pthread)
+
 add_executable(hg hg.c hist.c rdtsc.c run.c init.c opt.c report.c setup.c)
 
-add_executable(netio netio.c)
+# add_executable(netio netio.c) # temporarily removed due to lack of select() support
 
 add_executable(multithreaded multithreaded.c bench_output.c)
 target_compile_options(multithreaded PRIVATE -pthread)
