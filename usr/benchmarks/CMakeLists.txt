@@ -15,6 +15,8 @@ add_executable(hg hg.c hist.c rdtsc.c run.c init.c opt.c report.c setup.c)
 
 # add_executable(netio netio.c) # temporarily removed due to lack of select() support
 
+add_executable(alloc_benchmark allocation/main.c bench_output.c)
+
 add_executable(multithreaded multithreaded.c bench_output.c)
 target_compile_options(multithreaded PRIVATE -pthread)
 target_link_libraries(multithreaded pthread)
