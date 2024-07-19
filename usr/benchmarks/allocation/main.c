@@ -60,11 +60,9 @@ BenchRunResults benchmark_allocator() {
         }
 
         size_t size = (rand() % ((1 << 16) - (1 << 6))) + (1 << 6);
-        size_t align = 8 << (__builtin_ctz(rand()) / 2);
-        if (align < sizeof(void*)) align = sizeof(void*);
 
         uint64_t alloc_begin = now_fn();
-        void* ptr = aligned_alloc(align, size);
+        void* ptr = malloc(size);
         uint64_t alloc_ticks = now_fn() - alloc_begin;
 
         results.allocation_attempts++;

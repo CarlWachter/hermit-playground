@@ -41,5 +41,11 @@
         "command": "sudo qemu-system-x86_64 -smp 4 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 512M -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/demo",
         "iterations": 1,
         "group": "Demo"
+    },
+    {
+        "name": "Mutex Stress Test",
+        "command": "sudo qemu-system-x86_64 -smp 2 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 512M -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/mutex_bench",
+        "iterations": 1,
+        "group": "Mutex"
     }
 ]
