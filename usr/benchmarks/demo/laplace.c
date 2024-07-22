@@ -5,6 +5,7 @@
 #include <assert.h>
 #include "../bench_output.h"
 #include "laplace.h"
+#include "elapsed_time.h"
 
 #define SIZE 64
 #define ITERATIONS 1000
@@ -90,13 +91,17 @@ void laplace() {
 
     matrix_setup(matrix, SIZE, SIZE);
 
-    clock_t start = clock();
+    struct timeval start, end;
+    start.tv_usec = 0;
+    end.tv_usec = 0;
+
+    gettimeofday(&start, NULL);
     size_t counter;
     double residual;
     compute(matrix, SIZE, SIZE, &counter, &residual);
-    clock_t end = clock();
+    gettimeofday(&end, NULL);
 
-    double elapsed = (double)(end - start) / CLOCKS_PER_SEC * 1000.0;
+    int elapsed = get_elapsed_time(start, end);
     log_benchmark_data("Laplace 1000 Iterations", "ms", elapsed);
 
     assert(residual < 0.001);

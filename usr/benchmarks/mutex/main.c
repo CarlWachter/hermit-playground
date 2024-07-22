@@ -71,9 +71,8 @@ void mutex_stress_test(size_t no_threads) {
     SpinBarrier barrier;
     spin_barrier_init(&barrier, no_threads);
 
-    pthread_t *threads = malloc(no_threads * sizeof(pthread_t));
-    ThreadArgs *args = malloc(no_threads * sizeof(ThreadArgs));
-
+    pthread_t threads[no_threads];
+    ThreadArgs args[no_threads];
     for (size_t i = 0; i < no_threads; i++) {
         args[i].barrier = &barrier;
         args[i].mutex = &mutex;
@@ -87,16 +86,13 @@ void mutex_stress_test(size_t no_threads) {
         total_duration += args[i].duration;
     }
 
-    free(threads);
-    free(args);
-
     if (counter != 2 * NUMBER_OF_ITERATIONS * no_threads) {
         fprintf(stderr, "Counter value is incorrect: %zu\n", counter);
         exit(EXIT_FAILURE);
     }
     
     char bench_name[50];    
-    sprintf(bench_name, "%d Threads", no_threads);
+    sprintf(bench_name, "%zu Threads", no_threads);
 
     double average = (double)total_duration / (no_threads * NUMBER_OF_ITERATIONS);
     log_benchmark_data_with_group(
@@ -107,9 +103,52 @@ void mutex_stress_test(size_t no_threads) {
     );
 }
 
+void mutex_stress_test_single() {
+    size_t counter = 0;
+    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+    uint64_t start, end;
+
+    // Warmup
+    start = get_time_ns();
+    for (size_t i = 0; i < NUMBER_OF_ITERATIONS; i++) {
+        pthread_mutex_lock(&mutex);
+        (counter)++;
+        pthread_mutex_unlock(&mutex);
+    }
+    end = get_time_ns();
+    uint64_t duration = end - start;
+
+    start = get_time_ns();
+    for (size_t i = 0; i < NUMBER_OF_ITERATIONS; i++) {
+        pthread_mutex_lock(&mutex);
+        (counter)++;
+        pthread_mutex_unlock(&mutex);
+    }
+    end = get_time_ns();
+    duration = end - start;
+
+    if (counter != 2 * NUMBER_OF_ITERATIONS) {
+        fprintf(stderr, "Counter value is incorrect: %zu\n", counter);
+        exit(EXIT_FAILURE);
+    }
+
+    double average = (double)duration / NUMBER_OF_ITERATIONS;
+    log_benchmark_data_with_group(
+        "1 Thread",
+        "ns",
+        average,
+        (char *)"Mutex Stress Test Average Time per Iteration"
+    );
+}
+
 int main() {
     for(int i = 1; i <= NUM_THREADS; i*=2) {
-        mutex_stress_test(i);
+        if (i == 1) {
+            mutex_stress_test_single();
+        }else{
+            mutex_stress_test(i);
+        }
     }
 
     return 0;

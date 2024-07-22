@@ -44,7 +44,7 @@ BenchRunResults benchmark_allocator() {
     results.nofail_alloc_measurements = malloc(1e6 * sizeof(uint64_t));
     results.dealloc_measurements = malloc(1e6 * sizeof(uint64_t));
 
-    void* active_allocations[1000] = {0};
+    void** active_allocations = malloc(1e6 * sizeof(uint8_t));
     size_t active_allocations_len = 0;
 
     bool any_alloc_failed = false;

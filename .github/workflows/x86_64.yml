@@ -5,7 +5,7 @@ on:
   merge_group:
   push:
     branches:
-    - bench
+      - bench
 
 jobs:
   build:
@@ -28,7 +28,7 @@ jobs:
       uses: CarlWachter/hermit-bench@hermit-playground
       with: 
         benchmark-file: /usr/benchmarks/bench.json
-        build-command: "'HERMIT_LOG_LEVEL_FILTER=Off mkdir build && cd build && cmake .. -DTOOLCHAIN_BIN_DIR=/home/carl/test/bin && make'"
+        build-command: "'HERMIT_LOG_LEVEL_FILTER=Off mkdir build && cd build && cmake .. -DTOOLCHAIN_BIN_DIR=/home/carl/test/new/bin && make'"
     - name: Store benchmark result
       uses: CarlWachter/github-action-benchmark@playground
       with:
