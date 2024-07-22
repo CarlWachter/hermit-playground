@@ -47,5 +47,24 @@
         "command": "sudo qemu-system-x86_64 -smp 2 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 512M -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/mutex_bench",
         "iterations": 1,
         "group": "Mutex"
+    },
+    {
+        "name": "Allocation Benchmarks",
+        "command": "sudo qemu-system-x86_64 -smp 1 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 2G -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/alloc_bench",
+        "iterations": 1,
+        "group": "Allocations"
+    },
+    {
+        "name": "Micro Benchmarks",
+        "command": "sudo qemu-system-x86_64 -smp 4 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 2G -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/micro_bench",
+        "iterations": 1,
+        "group": "Micro"
+    },
+    {
+        "name": "Netbench TCP BW - Client",
+        "command": "parallel ::: 'sudo usr/benchmarks/netbench/run.sh tcp-latency server 1000 1048576' 'sleep 10 && sudo qemu-system-x86_64 -display none -serial stdio -kernel hermit-loader-x86_64 -cpu host -enable-kvm -device isa-debug-exit,iobase=0xf4,iosize=0x04 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/tcp-client-bw -smp 4 -m 1024M -netdev user,id=u1,hostfwd=tcp::7878-:7878,hostfwd=udp::9975-:9975,net=192.168.76.0/24,dhcpstart=192.168.76.9 -device virtio-net-pci,netdev=u1,disable-legacy=on,packed=on,mq=on -append \"-- 0.0.0.0 7878 1000 1048576 1\"'",
+        "iterations": 1,
+        "group": "Networking",
+        "plot_group": "Netbench Bandwidth - 1000x1MB"
     }
 ]

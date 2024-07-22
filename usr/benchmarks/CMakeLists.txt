@@ -3,6 +3,10 @@ include(../../cmake/HermitCore-Application.cmake)
 
 project(hermit_benchmarks C)
 
+# Disable compiler optimizations
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+
 add_executable(basic basic.c)
 target_compile_options(basic PRIVATE -pthread)
 target_link_libraries(basic pthread)
@@ -15,7 +19,15 @@ add_executable(hg hg.c hist.c rdtsc.c run.c init.c opt.c report.c setup.c)
 
 # add_executable(netio netio.c) # temporarily removed due to lack of select() support
 
-add_executable(alloc_benchmark allocation/main.c bench_output.c)
+add_executable(tcp-client-bw netbench/tcp-bw/client.c bench_output.c)
+
+add_executable(tcp-server-bw netbench/tcp-bw/server.c bench_output.c)
+
+add_executable(alloc_bench allocation/main.c bench_output.c)
+
+add_executable(micro_bench micro/main.c bench_output.c)
+target_compile_options(micro_bench PRIVATE -pthread)
+target_link_libraries(micro_bench pthread)
 
 add_executable(mutex_bench mutex/main.c bench_output.c)
 target_compile_options(mutex_bench PRIVATE -pthread)
