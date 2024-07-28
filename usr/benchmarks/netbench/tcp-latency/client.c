@@ -41,8 +41,9 @@ int client_connect(const char* address, int port) {
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
 
-    if (inet_pton(AF_INET, address, &server_addr.sin_addr) <= 0) {
-        perror("inet_pton");
+    server_addr.sin_addr.s_addr = inet_addr(address);
+    if (server_addr.sin_addr.s_addr == INADDR_NONE) {
+        perror("inet_addr");
         close(sock);
         return -1;
     }

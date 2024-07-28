@@ -1,7 +1,7 @@
 [
     {
         "name": "1 core",
-        "command": "sudo qemu-system-x86_64 -smp 1 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 128M -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/startup",
+        "command": "sudo qemu-system-x86_64 -smp 1 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 128M -serial stdio -kernel rusty-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/startup",
         "external_time": true,
         "iterations": 1,
         "group": "General",
@@ -9,7 +9,7 @@
     },
     {
         "name": "2 cores",
-        "command": "sudo qemu-system-x86_64 -smp 2 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 128M -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/startup",
+        "command": "sudo qemu-system-x86_64 -smp 2 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 128M -serial stdio -kernel rusty-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/startup",
         "external_time": true,
         "iterations": 1,
         "group": "General",
@@ -17,7 +17,7 @@
     },
     {
         "name": "4 cores",
-        "command": "sudo qemu-system-x86_64 -smp 4 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 128M -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/startup",
+        "command": "sudo qemu-system-x86_64 -smp 4 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 128M -serial stdio -kernel rusty-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/startup",
         "external_time": true,
         "iterations": 1,
         "group": "General",
@@ -31,40 +31,54 @@
     },
     {
         "name": "Pi Multithreaded Benchmark",
-        "command": "sudo qemu-system-x86_64 -smp 4 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 512M -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/multithreaded",
+        "command": "sudo qemu-system-x86_64 -smp 4 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 512M -serial stdio -kernel rusty-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/multithreaded",
         "iterations": 1,
         "group": "General",
         "plot_group": "Multithreaded Pi Efficiency"
     },
     {
         "name": "crusty_demo",
-        "command": "sudo qemu-system-x86_64 -smp 4 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 512M -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/demo",
+        "command": "sudo qemu-system-x86_64 -smp 4 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 512M -serial stdio -kernel rusty-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/demo",
         "iterations": 1,
         "group": "Demo"
     },
     {
         "name": "Mutex Stress Test",
-        "command": "sudo qemu-system-x86_64 -smp 2 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 512M -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/mutex_bench",
+        "command": "sudo qemu-system-x86_64 -smp 2 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 512M -serial stdio -kernel rusty-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/mutex_bench",
         "iterations": 1,
         "group": "Mutex"
     },
     {
         "name": "Allocation Benchmarks",
-        "command": "sudo qemu-system-x86_64 -smp 1 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 2G -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/alloc_bench",
+        "command": "sudo qemu-system-x86_64 -smp 1 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 2G -serial stdio -kernel rusty-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/alloc_bench",
         "iterations": 1,
         "group": "Allocations"
     },
     {
         "name": "Micro Benchmarks",
-        "command": "sudo qemu-system-x86_64 -smp 4 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 2G -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/micro_bench",
+        "command": "sudo qemu-system-x86_64 -smp 4 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 2G -serial stdio -kernel rusty-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/micro_bench",
         "iterations": 1,
         "group": "Micro"
     },
     {
         "name": "Netbench TCP BW - Client",
-        "command": "parallel ::: 'sudo usr/benchmarks/netbench/run.sh tcp-latency server 1000 1048576' 'sleep 10 && sudo qemu-system-x86_64 -display none -serial stdio -kernel hermit-loader-x86_64 -cpu host -enable-kvm -device isa-debug-exit,iobase=0xf4,iosize=0x04 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/tcp-client-bw -smp 4 -m 1024M -netdev user,id=u1,hostfwd=tcp::7878-:7878,hostfwd=udp::9975-:9975,net=192.168.76.0/24,dhcpstart=192.168.76.9 -device virtio-net-pci,netdev=u1,disable-legacy=on,packed=on,mq=on -append \"-- 0.0.0.0 7878 1000 1048576 1\"'",
+        "command": "parallel ::: 'sudo usr/benchmarks/netbench/run.sh tcp-bw server 1000 1048576' 'sleep 10 && sudo qemu-system-x86_64 -display none -serial stdio -kernel rusty-loader-x86_64 -cpu host -enable-kvm -device isa-debug-exit,iobase=0xf4,iosize=0x04 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/tcp-client-bw -smp 4 -m 1024M -netdev user,id=u1,hostfwd=tcp::7878-:7878,hostfwd=udp::9975-:9975,net=192.168.76.0/24,dhcpstart=192.168.76.9 -device virtio-net-pci,netdev=u1,disable-legacy=on,packed=on,mq=on -append \"-- 0.0.0.0 7878 1000 1048576 1\"'",
         "iterations": 1,
         "group": "Networking",
         "plot_group": "Netbench Bandwidth - 1000x1MB"
+    },
+    {
+        "name": "Netbench TCP BW - Server",
+        "command": "parallel ::: 'sleep 10 && sudo usr/benchmarks/netbench/run.sh tcp-bw client 100 3000' 'sudo qemu-system-x86_64 -display none -serial stdio -kernel hermit-loader-x86_64 -cpu host -enable-kvm -device isa-debug-exit,iobase=0xf4,iosize=0x04 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/tcp-server-bw -smp 2 -m 1024M -netdev user,id=u1,hostfwd=tcp::7878-:7878,net=192.168.76.0/24,dhcpstart=192.168.76.9 -device virtio-net-pci,netdev=u1,disable-legacy=on,packed=on,mq=on -append \"-- 127.0.0.1 7878 100 3000 1\"'",
+        "iterations": 5,
+        "group": "Networking",
+        "plot_group": "Netbench Bandwidth - 100x3000B"
+    },
+    {
+        "name": "Netbench TCP Latency - Server",
+        "command": "parallel ::: 'sleep 10 && sudo usr/benchmarks/netbench/run.sh tcp-latency client 100 2000' 'sudo qemu-system-x86_64 -display none -serial stdio -kernel hermit-loader-x86_64 -cpu host -enable-kvm -device isa-debug-exit,iobase=0xf4,iosize=0x04 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/tcp-server-latency -smp 2 -m 1024M -netdev user,id=u1,hostfwd=tcp::7878-:7878,net=192.168.76.0/24,dhcpstart=192.168.76.9 -device virtio-net-pci,netdev=u1,disable-legacy=on,packed=on,mq=on -append \"-- 127.0.0.1 7878 100 2000 1\"'",
+        "iterations": 5,
+        "group": "Networking",
+        "plot_group": "Netbench Bandwidth - 100x2000B"
     }
 ]

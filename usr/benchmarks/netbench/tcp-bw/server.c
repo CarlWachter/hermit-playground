@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <inttypes.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
@@ -27,45 +29,39 @@ struct Config parse_args(int argc, char** argv) {
 }
 
 int server_listen_and_get_first_connection(int port) {
-    int server_sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_sock < 0) {
-        perror("socket");
-        return -1;
+    const int sfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sfd < 0) {
+        puts("socket creation failed");
+        exit(1);
     }
 
-    struct sockaddr_in server_addr;
-    memset(&server_addr, 0, sizeof(server_addr));
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_addr.s_addr = INADDR_ANY;
-    server_addr.sin_port = htons(port);
-
-    if (bind(server_sock, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
-        perror("bind");
-        close(server_sock);
-        return -1;
+    const struct sockaddr_in server_addr = {.sin_family = AF_INET,
+                                            .sin_addr.s_addr =
+                                                htonl(INADDR_ANY),
+                                            .sin_port = htons(port)};
+    if (bind(sfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+        puts("bind failed");
+        exit(1);
     }
 
-    if (listen(server_sock, 1) < 0) {
-        perror("listen");
-        close(server_sock);
-        return -1;
+    if (listen(sfd, 64) < 0) {
+        puts("listen failed");
+        exit(1);
     }
 
-    struct sockaddr_in client_addr;
-    socklen_t client_addr_len = sizeof(client_addr);
-    int client_sock = accept(server_sock, (struct sockaddr*)&client_addr, &client_addr_len);
-    if (client_sock < 0) {
-        perror("accept");
-        close(server_sock);
-        return -1;
+    puts("listening for incoming connections");
+
+    struct sockaddr_in address;
+    socklen_t addr_len = sizeof(address);
+    int cfd;
+    if ((cfd = accept(sfd, (struct sockaddr *)&address, &addr_len)) < 0) {
+        puts("accept failed");
+        exit(1);
     }
 
-    close(server_sock);
-    return client_sock;
-}
+    puts("accepted connection");
 
-void setup(const struct Config* config, int sock) {
-    // Placeholder for any setup code, if needed.
+    return cfd;
 }
 
 double current_time_in_seconds() {
@@ -75,6 +71,7 @@ double current_time_in_seconds() {
 }
 
 int main(int argc, char** argv) {
+    printf("Starting TCP server...\n");
     if (argc < 6) {
         fprintf(stderr, "Usage: %s <address> <port> <n_rounds> <n_bytes> <is_hermit>\n", argv[0]);
         return 1;
@@ -82,27 +79,22 @@ int main(int argc, char** argv) {
 
     struct Config config = parse_args(argc, argv);
     int n_bytes = config.n_bytes;
-    int tot_bytes = config.n_rounds * config.n_bytes;
+    int tot_bytes = 0;
 
     char* buf = (char*)malloc(n_bytes);
 
     int sock = server_listen_and_get_first_connection(config.port);
     if (sock >= 0) {
-        setup(&config, sock);
-
         double start = current_time_in_seconds();
         for (int i = 0; i < config.n_rounds; ++i) {
-            ssize_t bytes_read = 0;
-            while (bytes_read < n_bytes) {
-                ssize_t result = read(sock, buf + bytes_read, n_bytes - bytes_read);
-                if (result < 0) {
-                    perror("read");
-                    free(buf);
-                    close(sock);
-                    return 1;
-                }
-                bytes_read += result;
+            ssize_t result = read(sock, buf, n_bytes);
+            if (result < 0) {
+                perror("read");
+                free(buf);
+                close(sock);
+                return 1;
             }
+            tot_bytes += result;
         }
         double end = current_time_in_seconds();
         double duration = end - start;

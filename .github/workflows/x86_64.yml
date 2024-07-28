@@ -3,9 +3,6 @@ name: Test x86_64
 on:
   pull_request:
   merge_group:
-  push:
-    branches:
-    - bench
 
 jobs:
   build:
@@ -28,7 +25,7 @@ jobs:
       uses: CarlWachter/hermit-bench@hermit-playground
       with: 
         benchmark-file: /usr/benchmarks/bench.json
-        build-command: "'HERMIT_LOG_LEVEL_FILTER=Off mkdir build && cd build && cmake .. -DTOOLCHAIN_BIN_DIR=/home/carl/test/bin && make'"
+        build-command: "'HERMIT_LOG_LEVEL_FILTER=Off mkdir build && cd build && sudo cmake .. -DTOOLCHAIN_BIN_DIR=/home/carl/toolchain-stable/bin && sudo make'"
     - name: Store benchmark result
       uses: CarlWachter/github-action-benchmark@playground
       with:

@@ -35,8 +35,8 @@ int client_connect(const char* address, int port) {
     server_addr.sin_family = AF_INET;
     server_addr.sin_port = htons(port);
 
-    if (inet_pton(AF_INET, address, &server_addr.sin_addr) <= 0) {
-        perror("inet_pton");
+    if (server_addr.sin_addr.s_addr == INADDR_NONE) {
+        perror("inet_addr");
         close(sock);
         return -1;
     }
@@ -48,10 +48,6 @@ int client_connect(const char* address, int port) {
     }
 
     return sock;
-}
-
-void setup(const struct Config* config, int sock) {
-    // Placeholder for any setup code, if needed.
 }
 
 void close_connection(int sock) {
@@ -72,7 +68,6 @@ int main(int argc, char** argv) {
 
     int sock = client_connect(config.address, config.port);
     if (sock >= 0) {
-        setup(&config, sock);
         printf("Connection established! Ready to send...\n");
 
         char* buf = (char*)malloc(n_bytes);

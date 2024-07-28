@@ -20,9 +20,9 @@ echo "Launching $bin on linux"
 gcc -o "$netbench_dir"/$bench/$client_server "$netbench_dir"/$bench/$client_server.c "$netbench_dir"/../bench_output.c
 
 if [ "$client_server" = "client" ]; then
-  addr="0.0.0.0"
-elif [ "$client_server" = "server" ]; then
   addr="127.0.0.1"
+elif [ "$client_server" = "server" ]; then
+  addr="0.0.0.0"
 else
   echo "Error: client_server must be either 'client' or 'server'"
   exit 1
