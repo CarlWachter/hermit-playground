@@ -83,19 +83,5 @@
         "command": "sudo qemu-system-x86_64 -smp 4 -cpu qemu64,apic,fsgsbase,rdtscp,xsave,xsaveopt,fxsr,rdrand -display none -m 2G -serial stdio -kernel hermit-loader-x86_64 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/micro_bench",
         "iterations": 20,
         "group": "Micro"
-    },
-    {
-        "name": "Netbench TCP BW - Server",
-        "command": "parallel ::: 'sleep 10 && sudo usr/benchmarks/netbench/run.sh tcp-bw client 1000 1048576' 'sudo qemu-system-x86_64 -display none -serial stdio -kernel hermit-loader-x86_64 -cpu host -enable-kvm -device isa-debug-exit,iobase=0xf4,iosize=0x04 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/tcp-server-bw -smp 2 -m 1024M -netdev user,id=u1,hostfwd=tcp::7878-:7878,net=192.168.76.0/24,dhcpstart=192.168.76.9 -device virtio-net-pci,netdev=u1,disable-legacy=on,packed=on,mq=on -append \"-- 127.0.0.1 7878 1000 1048576 1\"'",
-        "iterations": 5,
-        "group": "Networking",
-        "plot_group": "Netbench Bandwidth - 100x1MB"
-    },
-    {
-        "name": "Netbench TCP Latency - Server",
-        "command": "parallel ::: 'sleep 10 && sudo usr/benchmarks/netbench/run.sh tcp-latency client 250 65535' 'sudo qemu-system-x86_64 -display none -serial stdio -kernel hermit-loader-x86_64 -cpu host -enable-kvm -device isa-debug-exit,iobase=0xf4,iosize=0x04 -initrd build/local_prefix/opt/hermit/x86_64-hermit/extra/benchmarks/tcp-server-latency -smp 2 -m 1024M -netdev user,id=u1,hostfwd=tcp::7878-:7878,net=192.168.76.0/24,dhcpstart=192.168.76.9 -device virtio-net-pci,netdev=u1,disable-legacy=on,packed=on,mq=on -append \"-- 127.0.0.1 7878 250 65535 1\"'",
-        "iterations": 5,
-        "group": "Networking",
-        "plot_group": "Netbench Bandwidth - 250x65535B"
     }
 ]
